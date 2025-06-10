@@ -1,0 +1,24 @@
+{
+  "name": "ExpimAI",
+  "version": "1.0",
+  "author": "Danil Cheranev",
+  "oauth_client_id": "ВАШ_CLIENT_ID_ИЗ_AMOCRM",
+  "redirect_uri": "https://expimai-amo-production.up.railway.app/oauth",
+  "scopes": [
+    "contacts",
+    "leads",
+    "tasks",
+    "widgets"
+  ],
+  "widget": {
+    "location": "client",
+    "interface": {
+      "url": "https://expimai-amo-production.up.railway.app/amo-panel",
+      "height": 400
+    },
+    "title": "ExpimAI – AI-помощник"
+  },
+  "subdomain": [
+    "expim.amocrm.ru"
+  ]
+}
