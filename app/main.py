@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from app import auth
@@ -13,7 +13,7 @@ def status():
     return {"status": "ok"}
 
 @app.get("/amo-panel")
-def amo_panel(request):
+def amo_panel(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 app.include_router(auth.router)
