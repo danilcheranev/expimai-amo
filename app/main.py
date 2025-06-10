@@ -1,20 +1,19 @@
-from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from app import auth
 
-app = FastAPI(title="ExpimAI – AI-помощник для amoCRM")
+app = FastAPI()
 
-# Подключаем статику и шаблоны
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
-# Проверка статуса сервера
 @app.get("/api/status")
 def status():
-    return {"status": "ExpimAI is running"}
+    return {"status": "ok"}
 
-# Панель, которая отрисовывается в iframe внутри amoCRM
-@app.get("/amo-panel", response_class=HTMLResponse)
-async def amo_panel(request: Request):
+@app.get("/amo-panel")
+def amo_panel(request):
     return templates.TemplateResponse("index.html", {"request": request})
+
+app.include_router(auth.router)
