@@ -1,18 +1,15 @@
 {
-  "name": "ExpimAI",
-  "version": "1.0",
-  "author": "Danil Cheranev",
-  "oauth_client_id": "ВАШ_CLIENT_ID_ИЗ_AMOCRM",
-  "redirect_uri": "https://expimai-amo-production.up.railway.app/oauth",
-  "scopes": ["contacts", "leads", "tasks", "widgets"],
-  "widget": {
-    "location": ["sidebar"],             ← здесь меняем на sidebar
-    "icon": "https://your.cdn.com/icon.png",  ← URL иконки 48×48
-    "title": "ExpimAI",
-    "interface": {
-      "url": "https://expimai-amo-production.up.railway.app/amo-panel",
-      "height": 500
-    }
+  "name":"ExpimAI",
+  "version":"1.0",
+  "author":"Danil Cheranev",
+  "oauth_client_id":"30932182",
+  "redirect_uri":"https://expimai-amo-production.up.railway.app/oauth",
+  "scopes":["contacts","leads","tasks","widgets"],
+  "widget":{
+    "location":["sidebar"],
+    "icon":"https://expimai-amo-production.up.railway.app/static/icon.png",
+    "title":"ExpimAI",
+    "interface":{"url":"https://expimai-amo-production.up.railway.app/amo-panel","height":500}
   },
-  "subdomain": ["expim.amocrm.ru"]
+  "subdomain":["expim.amocrm.ru"]
 }
