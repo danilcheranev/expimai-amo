@@ -2,46 +2,45 @@ from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
-from app import auth
 
-# Создаем приложение
+from app import auth
+from app.duplicates import router as duplicates_router
+
 app = FastAPI(
     title="ExpimAI – AI-помощник для amoCRM",
-    description="Модульная FastAPI-интеграция для работы внутри amoCRM",
-    version="1.0.0"
+    version="1.0.0",
+    description="Модульная FastAPI-интеграция для работы внутри amoCRM"
 )
 
-# Разрешаем CORS (для iframe amoCRM)
+# Разрешаем CORS, чтобы amoCRM могла загружать iframe
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    allow_credentials=True,
 )
 
-# Подключаем статические файлы и шаблоны
-app.mount(
-    "/static",
-    StaticFiles(directory="static"),
-    name="static"
-)
+# Статика и шаблоны для iframe-панели
+app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
-# Базовый роут для проверки
+# Корневой роут и health-check
 @app.get("/", tags=["Root"])
 def root():
-    return {"status": "ok", "message": "ExpimAI работает"}
+    return {"status": "ok", "message": "ExpimAI запущен"}
 
-# Эндпоинт статуса
 @app.get("/api/status", tags=["Health"])
 def status():
     return {"status": "ok"}
 
-# Панель в iframe
+# Интерфейс в iframe для amoCRM
 @app.get("/amo-panel", response_class=None, tags=["UI"])
 async def amo_panel(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
-# Подключаем маршруты авторизации и другие
+# OAuth-модуль
 app.include_router(auth.router, prefix="", tags=["Auth"])
+
+# Модуль поиска дублей
+app.include_router(duplicates_router, prefix="", tags=["Duplicates"])
