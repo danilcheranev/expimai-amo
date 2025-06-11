@@ -1,35 +1,21 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-  <meta charset="UTF-8" />
-  <title>ExpimAI – панель</title>
-  <link rel="stylesheet" href="/static/styles.css" />
-</head>
+<head><meta charset="UTF-8"><title>ExpimAI</title><link rel="stylesheet" href="/static/styles.css"></head>
 <body>
-  <div class="container">
-    <h2>ExpimAI – AI-помощник</h2>
-    <p>Выберите действие:</p>
-    <button id="btn-manual">🔍 Найти дубли (manual)</button>
-    <button id="btn-auto">🤖 Обработать дубли (auto)</button>
-    <pre id="output" style="white-space: pre-wrap; margin-top: 1em;"></pre>
-  </div>
-
+  <h2>ExpimAI – AI-помощник</h2>
+  <button onclick="run('manual')">🔍 Найти дубли</button>
+  <button onclick="run('auto')">🤖 Обработать дубли</button>
+  <pre id="out"></pre>
   <script>
-    async function callDuplicates(mode) {
-      const responsibleId = 123; // замените на ID менеджера
-      const url = `/api/duplicates?mode=${mode}&responsible_id=${responsibleId}`;
-      document.getElementById('output').textContent = 'Загрузка…';
+    async function run(mode) {
+      document.getElementById('out').textContent = 'Загрузка...';
+      const url = `/api/duplicates?mode=${mode}&responsible_id=123`;
       try {
-        const res = await fetch(url, { method: 'POST' });
-        const data = await res.json();
-        document.getElementById('output').textContent = JSON.stringify(data, null, 2);
-      } catch (err) {
-        document.getElementById('output').textContent = 'Ошибка: ' + err;
-      }
+        const r = await fetch(url, {method:'POST'});
+        const j = await r.json();
+        document.getElementById('out').textContent = JSON.stringify(j, null,2);
+      } catch(e) { document.getElementById('out').textContent = e; }
     }
-
-    document.getElementById('btn-manual').onclick = () => callDuplicates('manual');
-    document.getElementById('btn-auto').onclick   = () => callDuplicates('auto');
   </script>
 </body>
 </html>
